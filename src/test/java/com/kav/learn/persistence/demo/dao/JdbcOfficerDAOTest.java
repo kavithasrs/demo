@@ -48,13 +48,13 @@ class JdbcOfficerDAOTest {
     }
 
     @Test
-    public void findAll(){
+    public void findAll() {
         List<String> namesInDB = officerDAO.findAll()
                 .stream()
                 .map(Officer::getLastName)
                 .collect(Collectors.toList());
         assertThat(namesInDB, containsInAnyOrder(
-                "Kirk", "Subbiah", "Subbiah Ramasamy", "Subramanian", "Subramanian"));
+                "Kirk", "Picard", "Sisko", "Janeway", "Archer"));
 
     }
 

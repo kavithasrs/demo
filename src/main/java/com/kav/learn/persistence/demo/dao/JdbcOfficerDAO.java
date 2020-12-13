@@ -2,6 +2,7 @@ package com.kav.learn.persistence.demo.dao;
 
 import com.kav.learn.persistence.demo.entities.Officer;
 import com.kav.learn.persistence.demo.entities.Rank;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -22,9 +23,10 @@ public class JdbcOfficerDAO implements OfficerDAO{
     private final RowMapper<Officer> officerRowMapper =
             (rs, rowNum) -> new Officer(rs.getInt("id"),
                     Rank.valueOf(rs.getString("rank")),
-                    rs.getString("firstName"),
-                    rs.getString("lastName"));
+                    rs.getString("first_name"),
+                    rs.getString("last_name"));
 
+    @Autowired
     public JdbcOfficerDAO(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
         insertOfficer = new SimpleJdbcInsert(jdbcTemplate)
@@ -36,8 +38,8 @@ public class JdbcOfficerDAO implements OfficerDAO{
     public Officer save(Officer officer) {
         Map<String,Object> parameters = new HashMap<>();
         parameters.put("rank", officer.getRank());
-        parameters.put("firstName", officer.getFirstName());
-        parameters.put("lastName", officer.getLastName());
+        parameters.put("first_name", officer.getFirstName());
+        parameters.put("last_name", officer.getLastName());
         Integer newId = (Integer) insertOfficer.executeAndReturnKey(parameters);
         officer.setId(newId);
         return officer;
